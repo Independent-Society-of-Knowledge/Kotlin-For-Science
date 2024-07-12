@@ -1,6 +1,30 @@
 \documentclass[10pt,twocolumn, a4paper]{article}
 
 \usepackage[top=1cm, bottom=1cm, left=1cm, right=1cm]{geometry}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
 
 \title{Kotlin For Science \\ \large Foundation of Kotlin Scientific Libraries}
 \author{Independent Society of Knowledge}
@@ -9,29 +33,98 @@
 \begin{document}
 	\maketitle
 	\section{Introduction}
-		Kotlin is a Statically types, language which gained popularity since its release in 2016.
-		The language is used primarily by android developers since google announced it as the language to develope android apps.
-		Independent Society of Knoweldge adapts Kotlin as its favoured development language.i
-		Kotlin provides a readable syntax since it is a high level language. 
-		It is developed on top of Java which is a rich language for several development purposes. 
-		And considering the speed it works better than alternatives like Python and Julia.
+		Kotlin, a statically typed language, has gained significant popularity since its release in 2016. 
+		Initially, Kotlin became prominent among Android developers after Google announced it as the preferred language for Android app development. 
+		However, the language's potential extends far beyond mobile development. 
+		The Independent Society of Knowledge has adopted Kotlin as its favored development language due to its readability and robust syntax.
 
-		Although we mentioned the reasons and capabilities of Kotlin, it is not used in scientific programming and computational sciences.
-		There are several reasons for this:
+		Kotlin's syntax is concise and expressive, making it a high-level language that is accessible and easy to learn. 
+		Built on top of the Java Virtual Machine (JVM), Kotlin leverages the rich ecosystem and interoperability of Java, offering a performance advantage over alternatives like Python and Julia in many scenarios.
+
+		Despite these advantages, Kotlin has not been widely adopted in scientific programming and computational sciences. Several factors contribute to this gap:
 		\begin{enumerate}
-			\item Kotlin is a new language and computational sciences has been working on many other old languages before Kotlin was published.
-			\item Because of its small history there aren't that many libraries that can be used for scientific purposes.
-				Other languages are just more rich in this area
-			\item The community is focused on app/software development.
-				You may see Kotlin being used in Android, Multiplatform, and even Backend development; the places where the community are working on the language extensively, unlike science, these areas are filled with packages and libraries for Kotlin.
+			\item \textbf{Relative Newness:} Kotlin is a relatively new language, whereas computational sciences have relied on established languages such as Fortran, C, and Python for decades.
+			\item \textbf{Library Ecosystem:} The current ecosystem of libraries for scientific computing in Kotlin is not as mature orextensive as those available for older languages.
+			\item \textbf{Community Focus:} The Kotlin community is primarily concentrated on app and software development, including Acdoird, Multi platform and Backend development. These areas are well-supported with packages and libraries, unlike scientific computing.
 		\end{enumerate}
-		This had been the reason for this project, \textit{Kotlin for Science} is the initiative of using Kotlin for scientific purposes. 
-		The project would be led by the community and maintained by Independent Society of Knowledge. 
-		
-		In this document we investigate and propose a solution to enhance Kotlin language for science. 
-		Giving out a clear route to adapted pre-developed libraries in C to be used in Kotlin.
+		The \textit{Kotlin for Science} Foundation aims to bridge this gap by promoting the use of Kotlin in scientific domains. Led by the community and maintained by the independent Society of Knowledge, this initiative will focus on enhancing Kotlin's capabilities for scientific computing and developing a rich ecosystem of libraries.
+
+		In this document, we investigate and propose solutions to adapt and integrate pre-developed libraries in C with Kotlin. This will provide a clear pathway for leveraging existing scientific tools with the Kotlin environment.
 	\section{Kotlin Language}
-		% Giving a basic introduction to Kotlin.
+		Kotlin is a modern, statically typed programming language that runs on the Java Virtual Machine (JVM) and can also be compiled to Javascript or native code. Since its release in 2016, Kotlin has quickly gained popularity due to its expressive syntax, modern features, and strong interoperability with Java.
+
+		Kotlin is fully interoperable with Java, which means you can call Java code from Kotlin. This allows developers to leverage the extensive ecosystem of Java libraries and frameworks while enjoying Kotlin's modern language features.
+		
+		\begin{lstlisting}
+			val list = ArrayList<String>()
+			list.add("Hello, World!")
+			println(list[0])
+		\end{lstlisting}
+
+		The syntax is designed to be concise and expressive, reducing boilerplate code and making it easier to read and write. This leads to higher productivity and fewer errors.
+
+		\begin{lstlisting}
+			fun greet(name: String) = "Hello \$name !"
+			fun main() {
+				println(greet("ISK")
+			}
+		\end{lstlisting}
+
+		Kotlin's type system is designed to eliminate the risk of null pointer exceptions, a common source of runtime errors in many languages. Nullable types and non-nullable types are distinct in Kotlin and the compiler enforces null safety.
+
+		\begin{lstlisting}
+			var nonNullable: String = "This cannot be null."
+			var nullable: String? = "This can be null."
+
+			nullable = null // This is allowed
+		\end{lstlisting}
+
+		Kotlin also provides built-in support for coroutines, which simplify asynchronous programming. Coroutines allow you to write non-blocking code in a sequential style, making it easier to handle complex asynchronous tasks.
+		
+		\begin{lstlisting}
+			import kotlinx.coroutines.*
+
+			fun main() = runBlocking {
+				launch {
+					delay(1000L)
+					println("World!")
+				}
+				println("Hello,")
+			}
+		\end{lstlisting}
+
+		Kotlin's interoperability with Java means that developers have access to a vast array of Java libraries and frameworks, which can be seamlessly integrated into Kotlin projects.
+
+		\begin{lstlisting}
+			import org.apache.commons.lang3.StringUtils
+
+			fun main() {
+				val str = "Hello Kotlin!"
+				println(StringUtils.reverse(str))
+			}
+		\end{lstlisting}
+
+		As mentioned earlier, Kotlin main purpose in today's world is app and software development. Kotlin supports multiplatform development, allowing developers to write code that can run on multiple platforms, including JVM, Javascript, Android, IOS, and native platforms through Kotlin/Native. This makes Kotlin an excellent choice for developing cross-platform applications.
+
+		Kotlin's Syntax is designed to be both concise and expressive, making it easier to read and write. This readability helps developers understand and maintain code more efficiently.
+
+		\begin{lstlisting}
+			data class Used(val name:String, val age:Int)
+
+			fun main() {
+				val user =User("Alice", 20)
+			
+				val doubleNumbers = listOf<Int>(1,2,3,4)
+							.map { it * 2 }
+							.forEach{
+							println(it)
+							}
+			}
+		\end{lstlisting}
+		
+		Kotlin's attributes make it a powerful language for various development scenarios, from Android and web applications to cross-platform projects and scientific computing. Its strong support for Java libraries, modern language features, and readable syntax contribute to its growing adoption in the developer community.
+		
+
 	\section{Binding C with Kotlin}
 		% Java Native Interface and Java Native Access for Kotlin and C binding.
 	\section{Kotlin for Science Strategy}
