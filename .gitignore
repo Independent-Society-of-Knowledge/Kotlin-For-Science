@@ -5,3 +5,4 @@
 dist
 /kotlin-js-store/
 local.properties
+/**/java/kjna

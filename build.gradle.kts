@@ -1,7 +1,10 @@
+import java.nio.file.Paths
+
 plugins {
     kotlin("multiplatform") version "2.0.0"
     id("maven-publish")
     id("org.jetbrains.dokka") version "1.9.20"
+    id("dev.toastbits.kjna") version "0.0.5" apply false
 }
 
 allprojects {
@@ -20,6 +23,7 @@ subprojects {
         plugin("maven-publish")
         plugin("org.jetbrains.dokka")
         plugin("signing")
+        plugin("dev.toastbits.kjna")
     }
 
 
@@ -27,10 +31,15 @@ subprojects {
         withSourcesJar(true)
         jvmToolchain(22)
         jvm()
-        js {
-            browser()
-        }
+        // currently no js!
+//        js {
+//            browser()
+//        }
         sourceSets {
+            commonMain.dependencies {
+                implementation("com.squareup:kotlinpoet:1.18.1")
+                implementation("dev.toastbits.kjna:runtime:0.0.5")
+            }
             commonTest.dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-test")
             }
@@ -44,7 +53,20 @@ subprojects {
                 }
             }
         }
+
+        kjna {
+            generate {
+                java_output_dir = java_output_dir.parentFile
+                jextract {
+                    binary.jextract_archive_extract_directory = Paths
+                        .get(System.getProperty("user.home") as String)
+                        .resolve("jextract")
+                        .toFile()
+                }
+            }
+        }
     }
+
 
     // docs
     val dokkaOutputDir = layout.buildDirectory.dir("dokka")
@@ -59,7 +81,6 @@ subprojects {
 
 
     publishing {
-
         publications {
             publications.withType<MavenPublication> {
                 artifact(javadocJar)

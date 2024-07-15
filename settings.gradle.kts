@@ -10,3 +10,4 @@ plugins {
 }
 
 rootProject.name = "ksf"
+include("ksf-gsl")
