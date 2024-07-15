@@ -1,4 +1,4 @@
-import kjna.gsl.specfunc.jextract.GSLSpecialFunctions
+import ksf.gsl.specfunc.jextract.GSLSpecialFunctions
 import org.jetbrains.letsPlot.geom.geomLine
 import org.jetbrains.letsPlot.label.ggtitle
 import org.jetbrains.letsPlot.letsPlot

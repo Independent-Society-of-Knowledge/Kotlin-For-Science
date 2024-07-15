@@ -1,8 +1,9 @@
+
 kotlin {
     kjna {
         generate {
             packages {
-                add("kjna.gsl.specfunc") {
+                add("ksf.gsl.specfunc") {
 
                     // Disabled packages will have no function implementations
                     // Use the 'isAvailable()' companion method to check at runtime

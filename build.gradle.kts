@@ -27,14 +27,15 @@ subprojects {
     }
 
 
+    val ksfBuildDir = project.layout.buildDirectory.dir("ksf").get().asFile
+    val ksfJavaSourceDir = ksfBuildDir.resolve("src/java")
+
+
     kotlin {
         withSourcesJar(true)
         jvmToolchain(22)
         jvm()
-        // currently no js!
-//        js {
-//            browser()
-//        }
+
         sourceSets {
             commonMain.dependencies {
                 implementation("com.squareup:kotlinpoet:1.18.1")
@@ -56,7 +57,7 @@ subprojects {
 
         kjna {
             generate {
-                java_output_dir = java_output_dir.parentFile
+                java_output_dir = ksfJavaSourceDir
                 jextract {
                     binary.jextract_archive_extract_directory = Paths
                         .get(System.getProperty("user.home") as String)
@@ -66,6 +67,11 @@ subprojects {
             }
         }
     }
+
+    sourceSets["main"].java{
+        srcDirs(ksfJavaSourceDir)
+    }
+
 
 
     // docs
@@ -139,4 +145,3 @@ tasks.withType<Jar> {
 tasks.withType<AbstractPublishToMaven> {
     enabled = false
 }
-
