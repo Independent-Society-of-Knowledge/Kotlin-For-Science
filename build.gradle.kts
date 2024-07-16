@@ -1,19 +1,24 @@
+import com.iskportal.kfs.binder.BinderPlugin
 import java.nio.file.Paths
 
 plugins {
-    kotlin("multiplatform") version "2.0.0"
+    kotlin("multiplatform")
     id("maven-publish")
-    id("org.jetbrains.dokka") version "1.9.20"
-    id("dev.toastbits.kjna") version "0.0.5" apply false
+    id("org.jetbrains.dokka")
+    id("dev.toastbits.kjna").apply(false)
+    id("com.iskportal.kfs.binder").apply(false)
 }
 
+
 allprojects {
-    repositories {
-        mavenCentral()
-    }
 
     group = "com.iskportal"
-    version = "1.0.0"
+    version = ext["project.version"] as String
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
 }
 
 subprojects {
@@ -24,11 +29,12 @@ subprojects {
         plugin("org.jetbrains.dokka")
         plugin("signing")
         plugin("dev.toastbits.kjna")
+        plugin("com.iskportal.kfs.binder")
     }
 
 
-    val ksfBuildDir = project.layout.buildDirectory.dir("ksf").get().asFile
-    val ksfJavaSourceDir = ksfBuildDir.resolve("src/java")
+    val kfsBuildDir = project.layout.buildDirectory.dir("kfs").get().asFile
+    val kfsJavaSourceDir = kfsBuildDir.resolve("src/java")
 
 
     kotlin {
@@ -57,7 +63,7 @@ subprojects {
 
         kjna {
             generate {
-                java_output_dir = ksfJavaSourceDir
+                java_output_dir = kfsJavaSourceDir
                 jextract {
                     binary.jextract_archive_extract_directory = Paths
                         .get(System.getProperty("user.home") as String)
@@ -68,11 +74,12 @@ subprojects {
         }
     }
 
-    sourceSets["main"].java{
-        srcDirs(ksfJavaSourceDir)
+    sourceSets["main"].java {
+        srcDirs(kfsJavaSourceDir)
     }
 
 
+        apply<BinderPlugin>()
 
     // docs
     val dokkaOutputDir = layout.buildDirectory.dir("dokka")
@@ -125,7 +132,6 @@ subprojects {
             }
         }
     }
-
 
 }
 
