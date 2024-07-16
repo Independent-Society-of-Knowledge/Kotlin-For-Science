@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.com.fasterxml.jackson.databind.EnumNamingStrategies.CamelCaseStrategy
+import org.jetbrains.kotlin.load.java.structure.impl.convertCanonicalNameToQName
 
 kotlin {
     kjna {
@@ -9,10 +11,8 @@ kotlin {
                     // Use the 'isAvailable()' companion method to check at runtime
                     enabled = true
 
-                    addHeader(
-                        "gsl/gsl_specfunc.h", // Header path
-                        "GSLSpecialFunctions" // Generated class name
-                    )
+                    addHeader("gsl/gsl_specfunc.h", "GSLSpecialFunctions")
+                    addHeader("gsl/gsl_linalg.h", "GSLLinearAlgebra")
 
 
                     libraries = listOf("gsl")

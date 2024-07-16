@@ -25,7 +25,7 @@ class CompileAndLoadExtractedClass(
         )
 
         val compilationTask = compiler.getTask(
-            null, fileManager, null, listOf("-d", classesDir.absolutePath),
+            null, fileManager, null, listOf("-d", classesDir.absolutePath, "-parameters"),
             null, sourceFiles
         )
 

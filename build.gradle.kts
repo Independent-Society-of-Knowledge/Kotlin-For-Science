@@ -43,6 +43,17 @@ subprojects {
         jvm()
 
         sourceSets {
+            commonMain{
+                kotlin{
+                    srcDirs(kfsBuildDir.resolve("src/commonMain"))
+                }
+            }
+            jvmMain{
+                kotlin {
+                    srcDirs(kfsBuildDir.resolve("src/jvmMain"))
+                }
+            }
+
             commonMain.dependencies {
                 implementation("com.squareup:kotlinpoet:1.18.1")
                 implementation("dev.toastbits.kjna:runtime:0.0.5")

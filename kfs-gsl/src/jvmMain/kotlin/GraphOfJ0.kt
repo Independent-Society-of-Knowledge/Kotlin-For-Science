@@ -1,11 +1,13 @@
-import kfs.gsl.specfunc.jextract.GSLSpecialFunctions
+import kfs.gsl.specfunc.GSLLinearAlgebra
+import kfs.gsl.specfunc.GSLSpecialFunctions
 import org.jetbrains.letsPlot.geom.geomLine
 import org.jetbrains.letsPlot.label.ggtitle
 import org.jetbrains.letsPlot.letsPlot
 
 
 fun main() = try {
-   val data =  (0..3000)
+    println(GSLLinearAlgebra::class.java)
+    val data =  (0..3000)
         .map { it / 100.0 }
         .map { it to GSLSpecialFunctions.gsl_sf_bessel_j0(it) }
 

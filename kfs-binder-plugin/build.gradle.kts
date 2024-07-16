@@ -19,6 +19,9 @@ repositories {
     mavenCentral()
     gradlePluginPortal()
 }
+dependencies {
+    implementation("com.squareup:kotlinpoet:1.18.1")
+}
 
 gradlePlugin {
     plugins {
