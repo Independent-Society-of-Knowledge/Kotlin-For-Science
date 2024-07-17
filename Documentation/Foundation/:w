@@ -1,0 +1,153 @@
+\documentclass[10pt,twocolumn, a4paper]{article}
+
+\usepackage[top=1cm, bottom=2cm, left=1cm, right=1cm]{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage{listings}
+\lstdefinelanguage{Kotlin}{
+  comment=[l]{//},
+  commentstyle={\color{gray}\ttfamily},
+  emph={filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println},
+  emphstyle={\color{black}},
+  identifierstyle=\color{black},
+  keywords={!in, !is, abstract, actual, annotation, as, as?, break, by, catch, class, companion, const, constructor, continue, crossinline, data, delegate, do, dynamic, else, enum, expect, external, false, field, file, final, finally, for, fun, get, if, import, in, infix, init, inline, inner, interface, internal, is, lateinit, noinline, null, object, open, operator, out, override, package, param, private, property, protected, public, receiveris, reified, return, return@, sealed, set, setparam, super, suspend, tailrec, this, throw, true, try, typealias, typeof, val, var, vararg, when, where, while},
+  keywordstyle={\color{blue}\bfseries},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[s]{"""*}{*"""},
+  ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String, Any, Unit, Nothing},
+  ndkeywordstyle={\color{orange}\bfseries},
+  sensitive=true,
+  stringstyle={\color{green}\ttfamily},
+}
+
+\lstset{frame=tb,
+  language=Kotlin,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{olive},
+  stringstyle=\color{olive},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+\title{Kotlin For Science \\ \large Foundation of Kotlin Scientific Libraries}
+\author{Independent Society of Knowledge}
+\date{Last Edited \today}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+Kotlin, a statically typed language, has gained significant popularity since its release in 2016.
+Initially, Kotlin became prominent among Android developers after Google announced it as the preferred language for Android app development.
+However, the language's potential extends far beyond mobile development.
+The Independent Society of Knowledge has adopted Kotlin as its favored development language due to its readability and robust syntax.
+
+Kotlin's syntax is concise and expressive, making it a high-level language that is accessible and easy to learn.
+Built on top of the Java Virtual Machine (JVM), Kotlin leverages the rich ecosystem and interoperability of Java, offering a performance advantage over alternatives like Python and Julia in many scenarios.
+
+Despite these advantages, Kotlin has not been widely adopted in scientific programming and computational sciences. Several factors contribute to this gap:
+\begin{enumerate}
+	\item \textbf{Relative Newness:} Kotlin is a relatively new language, whereas computational sciences have relied on established languages such as Fortran, C, and Python for decades.
+	\item \textbf{Library Ecosystem:} The current ecosystem of libraries for scientific computing in Kotlin is not as mature orextensive as those available for older languages.
+	\item \textbf{Community Focus:} The Kotlin community is primarily concentrated on app and software development, including Acdoird, Multi platform and Backend development. These areas are well-supported with packages and libraries, unlike scientific computing.
+\end{enumerate}
+The \textit{Kotlin for Science} Foundation aims to bridge this gap by promoting the use of Kotlin in scientific domains. Led by the community and maintained by the independent Society of Knowledge, this initiative will focus on enhancing Kotlin's capabilities for scientific computing and developing a rich ecosystem of libraries.
+
+In this document, we investigate and propose solutions to adapt and integrate pre-developed libraries in C with Kotlin. This will provide a clear pathway for leveraging existing scientific tools with the Kotlin environment.
+\section{Kotlin Language}
+Kotlin is a modern, statically typed programming language that runs on the Java Virtual Machine (JVM) and can also be compiled to Javascript or native code. Since its release in 2016, Kotlin has quickly gained popularity due to its expressive syntax, modern features, and strong interoperability with Java.
+
+Kotlin is fully interoperable with Java, which means you can call Java code from Kotlin. This allows developers to leverage the extensive ecosystem of Java libraries and frameworks while enjoying Kotlin's modern language features.
+
+\begin{lstlisting}
+			val list = ArrayList<String>()
+			list.add("Hello, World!")
+			println(list[0])
+		\end{lstlisting}
+
+The syntax is designed to be concise and expressive, reducing boilerplate code and making it easier to read and write. This leads to higher productivity and fewer errors.
+
+\begin{lstlisting}
+			fun greet(name: String) = "Hello \$name !"
+			fun main() {
+				println(greet("ISK")
+			}
+		\end{lstlisting}
+
+Kotlin's type system is designed to eliminate the risk of null pointer exceptions, a common source of runtime errors in many languages. Nullable types and non-nullable types are distinct in Kotlin and the compiler enforces null safety.
+
+\begin{lstlisting}
+			var nonNullable: String = "This cannot be null."
+			var nullable: String? = "This can be null."
+
+			nullable = null // This is allowed
+		\end{lstlisting}
+
+Kotlin also provides built-in support for coroutines, which simplify asynchronous programming. Coroutines allow you to write non-blocking code in a sequential style, making it easier to handle complex asynchronous tasks.
+
+\begin{lstlisting}
+			import kotlinx.coroutines.*
+
+			fun main() = runBlocking {
+				launch {
+					delay(1000L)
+					println("World!")
+				}
+				println("Hello,")
+			}
+		\end{lstlisting}
+
+Kotlin's interoperability with Java means that developers have access to a vast array of Java libraries and frameworks, which can be seamlessly integrated into Kotlin projects.
+
+\begin{lstlisting}
+			import org.apache.commons.lang3.StringUtils
+
+			fun main() {
+				val str = "Hello Kotlin!"
+				println(StringUtils.reverse(str))
+			}
+		\end{lstlisting}
+
+As mentioned earlier, Kotlin main purpose in today's world is app and software development. Kotlin supports multiplatform development, allowing developers to write code that can run on multiple platforms, including JVM, Javascript, Android, IOS, and native platforms through Kotlin/Native. This makes Kotlin an excellent choice for developing cross-platform applications.
+
+Kotlin's Syntax is designed to be both concise and expressive, making it easier to read and write. This readability helps developers understand and maintain code more efficiently.
+
+\begin{lstlisting}
+			data class Used(val name:String, val age:Int)
+
+			fun main() {
+				val user =User("Alice", 20)
+			
+				val doubleNumbers = listOf<Int>(1,2,3,4)
+							.map { it * 2 }
+							.forEach{
+							println(it)
+							}
+			}
+		\end{lstlisting}
+
+Kotlin's attributes make it a powerful language for various development scenarios, from Android and web applications to cross-platform projects and scientific computing. Its strong support for Java libraries, modern language features, and readable syntax contribute to its growing adoption in the developer community.
+
+
+\section{Binding C with Kotlin}
+
+\section{Kotlin for Science Strategy}
+% About Kotlin for Science Strategy and Its Implementation process.
+\section{Development Plan}
+% Development Plan.
+\section{Costs}
+% Time analysis and business model
+\section{Promotion and Usage}
+% How to Promote Kotlin for Science.
+\end{document}
