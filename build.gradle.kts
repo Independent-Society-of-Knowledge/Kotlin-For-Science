@@ -1,4 +1,5 @@
-import com.iskportal.kfs.binder.BinderPlugin
+import com.iskportal.kfs.binder.plugin.BinderPlugin
+import dev.toastbits.kjna.plugin.KJnaJextractGenerateTask
 import java.nio.file.Paths
 
 plugins {
@@ -6,7 +7,7 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.dokka")
     id("dev.toastbits.kjna").apply(false)
-    id("com.iskportal.kfs.binder").apply(false)
+    id("com.iskportal.kfs.binder.plugin").apply(false)
 }
 
 
@@ -29,7 +30,7 @@ subprojects {
         plugin("org.jetbrains.dokka")
         plugin("signing")
         plugin("dev.toastbits.kjna")
-        plugin("com.iskportal.kfs.binder")
+        plugin("com.iskportal.kfs.binder.plugin")
     }
 
 
@@ -43,18 +44,19 @@ subprojects {
         jvm()
 
         sourceSets {
-            commonMain{
-                kotlin{
+            commonMain {
+                kotlin {
                     srcDirs(kfsBuildDir.resolve("src/commonMain"))
                 }
             }
-            jvmMain{
+            jvmMain {
                 kotlin {
                     srcDirs(kfsBuildDir.resolve("src/jvmMain"))
                 }
             }
 
             commonMain.dependencies {
+                implementation("com.iskportal.kfs.binder:lib:${properties["project.version"]}")
                 implementation("com.squareup:kotlinpoet:1.18.1")
                 implementation("dev.toastbits.kjna:runtime:0.0.5")
             }
@@ -89,8 +91,11 @@ subprojects {
         srcDirs(kfsJavaSourceDir)
     }
 
+    tasks.named("assemble"){
+        dependsOn(tasks.withType<KJnaJextractGenerateTask>())
+    }
 
-        apply<BinderPlugin>()
+    apply<BinderPlugin>()
 
     // docs
     val dokkaOutputDir = layout.buildDirectory.dir("dokka")

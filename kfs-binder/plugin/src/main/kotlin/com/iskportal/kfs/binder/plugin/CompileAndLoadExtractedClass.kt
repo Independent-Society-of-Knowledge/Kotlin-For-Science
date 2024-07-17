@@ -1,6 +1,5 @@
-package com.iskportal.kfs.binder
+package com.iskportal.kfs.binder.plugin
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction

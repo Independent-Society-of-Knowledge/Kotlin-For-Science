@@ -5,11 +5,11 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        kotlin("multiplatform") version "2.0.0"
+        kotlin("multiplatform") version(extra["kotlin.version"] as String)
         id("maven-publish")
         id("org.jetbrains.dokka") version "1.9.20"
         id("dev.toastbits.kjna") version "0.0.5"
-        id("com.iskportal.kfs.binder") version(extra["project.version"] as String)
+        id("com.iskportal.kfs.binder.plugin") version(extra["project.version"] as String)
     }
 }
 plugins {
@@ -19,4 +19,5 @@ plugins {
 
 rootProject.name = "kfs"
 include("kfs-gsl")
-includeBuild("kfs-binder-plugin")
+include("kfs-playground")
+includeBuild("kfs-binder")
