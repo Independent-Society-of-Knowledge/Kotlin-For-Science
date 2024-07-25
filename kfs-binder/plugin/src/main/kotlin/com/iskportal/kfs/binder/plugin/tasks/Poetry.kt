@@ -3,6 +3,7 @@ package com.iskportal.kfs.binder.plugin.tasks
 import com.github.javaparser.JavaParser
 import com.iskportal.kfs.binder.Pointer
 import com.iskportal.kfs.binder.plugin.dto.ProjectConfig
+import com.iskportal.kfs.binder.ptr
 import com.squareup.kotlinpoet.*
 import org.eclipse.cdt.core.dom.ast.*
 import org.eclipse.cdt.core.dom.ast.gnu.cpp.GPPLanguage
@@ -69,6 +70,7 @@ class Poetry(val clazz: Class<*>, val projectConfig: ProjectConfig) {
 
     fun makeJvm() {
         val jvm = FileSpec.builder(klass)
+            .addImport("com.iskportal.kfs.binder", "ptr")
             .addType(
                 TypeSpec
                     .classBuilder(klass)
@@ -92,7 +94,7 @@ class Poetry(val clazz: Class<*>, val projectConfig: ProjectConfig) {
                                                         else
                                                             it.name
                                                     } ?: ""
-                                                })"
+                                                })${if(MemorySegment::class.java.isAssignableFrom(it.returnType)) ".ptr" else ""}"
                                             )
                                             .build()
                                     )
@@ -118,7 +120,11 @@ class Poetry(val clazz: Class<*>, val projectConfig: ProjectConfig) {
                         else it.type to it.name
                     }
                     .map { ParameterSpec.builder(it.second, it.first).build() })
-            .returns(returnType)
+            .returns(
+                if(MemorySegment::class.java.isAssignableFrom(returnType))
+                    Pointer::class.java
+                else returnType
+            )
 }
 
 private fun getSignatures(
