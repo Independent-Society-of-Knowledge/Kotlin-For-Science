@@ -1,11 +1,8 @@
-import org.gradle.internal.impldep.com.fasterxml.jackson.databind.EnumNamingStrategies.CamelCaseStrategy
-import org.jetbrains.kotlin.load.java.structure.impl.convertCanonicalNameToQName
-
 kotlin {
     kjna {
         generate {
             packages {
-                add("kfs.gsl.specfunc") {
+                add("kfs.gsl") {
 
                     // Disabled packages will have no function implementations
                     // Use the 'isAvailable()' companion method to check at runtime
@@ -13,7 +10,9 @@ kotlin {
 
                     addHeader("gsl/gsl_specfunc.h", "GSLSpecialFunctions")
                     addHeader("gsl/gsl_linalg.h", "GSLLinearAlgebra")
+                    addHeader("gsl/gsl_blas.h", "GSLBLAS")
 
+                    lib_dirs
 
                     libraries = listOf("gsl")
                 }

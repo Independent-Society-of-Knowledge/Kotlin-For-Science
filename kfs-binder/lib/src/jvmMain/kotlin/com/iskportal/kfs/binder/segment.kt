@@ -3,11 +3,20 @@ package com.iskportal.kfs.binder
 import java.lang.foreign.Arena
 import java.lang.foreign.MemorySegment
 import java.lang.foreign.SegmentAllocator
+import java.lang.foreign.ValueLayout
 import kotlin.reflect.KClass
 import kotlin.reflect.full.companionObject
 import kotlin.reflect.full.companionObjectInstance
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.javaGetter
+
+
+val MemorySegment.native: MemorySegment
+    get() {
+        val seg = Arena.ofAuto().allocate(byteSize())
+        seg.copyFrom(this)
+        return seg
+    }
 
 //region segment
 val DoubleArray.segment: MemorySegment get() = MemorySegment.ofArray(this)
@@ -17,6 +26,22 @@ val ByteArray.segment: MemorySegment get() = MemorySegment.ofArray(this)
 val CharArray.segment: MemorySegment get() = MemorySegment.ofArray(this)
 val FloatArray.segment: MemorySegment get() = MemorySegment.ofArray(this)
 val LongArray.segment: MemorySegment get() = MemorySegment.ofArray(this)
+
+
+val MemorySegment.asDoubleArray: DoubleArray
+    get() = this.toArray(ValueLayout.JAVA_DOUBLE)
+val MemorySegment.asIntArray: IntArray
+    get() = this.toArray(ValueLayout.JAVA_INT)
+val MemorySegment.asShortArray: ShortArray
+    get() = this.toArray(ValueLayout.JAVA_SHORT)
+val MemorySegment.asByteArray: ByteArray
+    get() = this.toArray(ValueLayout.JAVA_BYTE)
+val MemorySegment.asCharArray: CharArray
+    get() = this.toArray(ValueLayout.JAVA_CHAR)
+val MemorySegment.asFloatArray: FloatArray
+    get() = this.toArray(ValueLayout.JAVA_FLOAT)
+val MemorySegment.asLongArray: LongArray
+    get() = this.toArray(ValueLayout.JAVA_LONG)
 
 
 inline val <reified T : CStruct> T.segment: MemorySegment
@@ -109,7 +134,7 @@ inline fun <reified T : CStruct> MemorySegment.readArray(): Array<T> {
         }
 
     return (0 until size).map { slicer.invoke(null, this, it) as MemorySegment }
-        .map { seg -> argsBuilder.entries.associate { it.key to it.value.invoke(null,seg) } }
+        .map { seg -> argsBuilder.entries.associate { it.key to it.value.invoke(null, seg) } }
         .map { constructor.callBy(it) }
         .toTypedArray()
 
