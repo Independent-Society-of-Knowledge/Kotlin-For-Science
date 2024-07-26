@@ -3,6 +3,7 @@ package com.iskportal.kfs.binder.plugin
 import com.iskportal.kfs.binder.plugin.dto.ProjectConfig
 import com.iskportal.kfs.binder.plugin.tasks.compileAndLoadTask
 import dev.toastbits.kjna.plugin.KJnaJextractGenerateTask
+import dev.toastbits.kjna.plugin.KJnaPrepareJextractTask
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project

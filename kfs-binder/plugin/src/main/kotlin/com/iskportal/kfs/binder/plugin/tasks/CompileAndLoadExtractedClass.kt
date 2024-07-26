@@ -22,7 +22,11 @@ fun compileAndLoad(projectConfig: ProjectConfig): URLClassLoader {
     )
 
     val compilationTask = compiler.getTask(
-        null, fileManager, null, listOf("-d", classesDir.absolutePath, "-parameters"),
+        null, fileManager, null,
+        listOf(
+            "-d", classesDir.absolutePath,
+            "-parameters",
+        ),
         null, sourceFiles
     )
 

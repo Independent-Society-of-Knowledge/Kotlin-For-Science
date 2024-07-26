@@ -167,3 +167,7 @@ tasks.withType<Jar> {
 tasks.withType<AbstractPublishToMaven> {
     enabled = false
 }
+
+tasks.withType<JavaExec> {
+    jvmArgs = listOf("--enable-preview")
+}
